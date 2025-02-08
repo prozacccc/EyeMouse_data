@@ -2,13 +2,10 @@ import csv
 import math
 import pandas as pd
 
-# 定义合并CSV文件的函数
 def merge_csv_files(mouse_file, eye_file, output_file):
-    # 读取键鼠数据和眼动数据
     mouse_data = pd.read_csv(mouse_file, header=None)
     eye_data = pd.read_csv(eye_file, header=None)
 
-    # 检查数据是否符合预期
     if mouse_data.shape[1] < 4 or eye_data.shape[1] < 4:
         print("输入的CSV文件格式不正确，请检查！")
         return
@@ -47,7 +44,6 @@ def read_csv(filename):
     data = []
     with open(filename, 'r', newline='') as file:
         reader = csv.reader(file)
-        # 跳过首行
         next(reader, None)
         for row in reader:
             data.append(row)
@@ -90,7 +86,6 @@ def interpolate_mouse_actions(actions):
                 # print(interpolated_data[time_point])
             current_index += 1
 
-    # 将字典的键值对转换为列表
     interpolated_list = [[key] + value for key, value in interpolated_data.items()]
     # for list in interpolated_list:
     #     print(list)
