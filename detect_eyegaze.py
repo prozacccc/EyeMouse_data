@@ -106,7 +106,6 @@ def get_eye_saccade(x, y, time, minlen, maxvel, maxacc, minsamples):
     vel = intdist / inttime
     acc = np.diff(vel)
     
-    # 速度、加速度和的时间保存到新的 CSV 文件中
     with open('velocity.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['Velocity'])
@@ -188,14 +187,13 @@ def merge_actions(fixlist, saclist, slow_speed_threshold=0.1):
 def analyzer(filepath, maxdist=50, mindur=0.3,  minlen=0.5, maxvel=1000, maxacc=1000, minsamples=2):
     with open(filepath, 'r') as file:
         reader = csv.reader(file)
-        next(reader)  # 跳过表头行
+        next(reader)  
         data = list(reader)
         
-    # 检查数据格式并处理
     max_columns = max(len(row) for row in data)
     for row in data:
         if len(row) < max_columns:
-            row.extend([None] * (max_columns - len(row)))  # 填充缺失值
+            row.extend([None] * (max_columns - len(row))) 
     
     data_array = np.array(data)
     
