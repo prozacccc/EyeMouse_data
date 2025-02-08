@@ -209,10 +209,9 @@ def analyzer(filepath, maxdist=50, mindur=0.3,  minlen=0.5, maxvel=1000, maxacc=
     return fixlist, saclist
 
 def main():
-    filepath = 'eye_tracking.csv'  # 替换为你的CSV文件名
+    filepath = 'eye_tracking.csv'  
     fixlist, saclist = analyzer(filepath)
         
-    # 保存到新的CSV文件中
     with open('fixation.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['Starttime', 'Endtime', 'Duration', 'Endx', 'Endy'])
