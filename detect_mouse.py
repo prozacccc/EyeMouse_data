@@ -4,10 +4,8 @@ import os
 
 
 def merge_csv_files1(input_folder, output_file, saclist):
-    # 创建一个列表来存储所有的数据行
     all_rows = []
 
-    # 遍历输入文件夹中的每个 CSV 文件
     for filename in os.listdir(input_folder):
         if filename.endswith('.csv'):
             filepath = os.path.join(input_folder, filename)
@@ -15,14 +13,11 @@ def merge_csv_files1(input_folder, output_file, saclist):
                 reader = csv.reader(csvfile)
                 # 获取操作类型，用于在输出中标识来源
                 operation_type = os.path.splitext(filename)[0]
-                first_row_skipped = False  # 用于跳过每个原始文件的首行（标题）
+                first_row_skipped = False  
                 for row in reader:
-                    # 跳过每个原始文件的首行（标题）
                     if not first_row_skipped:
                         first_row_skipped = True
                         continue
-
-                    # 添加操作类型作为第一列，其余内容保持不变
                     all_rows.append([operation_type] + row)
 
     # 按时间戳排序
@@ -41,7 +36,6 @@ def merge_csv_files1(input_folder, output_file, saclist):
                     filtered_rows[idx] = row
                     break
 
-    # 更新 all_rows
     all_rows = filtered_rows
     
     merged1 = []
@@ -70,7 +64,7 @@ def merge_csv_files1(input_folder, output_file, saclist):
 def merge_csv_files2(filename, saclist):
     with open(filename, 'r') as file:
         reader = csv.reader(file)
-        next(reader)  # 跳过表头行
+        next(reader)  
         data = list(reader)
         
     # 检查数据格式并处理
@@ -94,7 +88,6 @@ def merge_csv_files2(filename, saclist):
             merged1.append(data[i])
     
 
-    # 写入到输出文件中
     with open(filename, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['Type', 'Starttime', 'Endtime', 'Duration', 'Startx', 'Starty', 'Endx', 'Endy'])
@@ -131,7 +124,7 @@ def get_mouse_saccade(input_folder, minlen, maxvel, maxacc, minsamples):
             filepath = os.path.join(input_folder, filename)
             with open(filepath, 'r') as file:
                 reader = csv.reader(file)
-                next(reader)  # 跳过表头行
+                next(reader) 
                 data = list(reader)
                 
     # 检查数据格式并处理
@@ -219,7 +212,7 @@ def get_mouse_hover(filepath, max_hover_time):
     """
     with open(filepath, 'r') as file:
         reader = csv.reader(file)
-        next(reader)  # 跳过表头行
+        next(reader)  
         data = list(reader)
         
     # 检查数据格式并处理
@@ -266,7 +259,7 @@ def get_mouse_slow(filepath):
     """
     with open(filepath, 'r') as file:
         reader = csv.reader(file)
-        next(reader)  # 跳过表头行
+        next(reader)  
         data = list(reader)
         
     # 检查数据格式并处理
@@ -339,7 +332,6 @@ def merge_mouse_movement(input_folder, slowlist, saclist, hoverlist):
     all_rows = []
     all_rows= saclist_with_type + hoverlist_with_type + slowlist_with_type
     
-    # 遍历输入文件夹中的每个 CSV 文件
     for filename in os.listdir(input_folder):
         if filename.endswith('.csv') and 'move' not in filename.lower():
             filepath = os.path.join(input_folder, filename)
@@ -402,7 +394,6 @@ def analyzer(input_folder, filepath2, output_file, minlen=0.2, maxvel=2000, maxa
     return merged_data
 
 def main():
-    # 指定输入文件夹和输出文件
     input_folder = 'simplified_folder'
     filepath2 = 'merged_mousekb_data.csv'
     output_file = 'mouse_actions.csv'
