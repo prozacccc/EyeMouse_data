@@ -5,11 +5,9 @@ import csv
 from collections import defaultdict
 
 
-# 定义处理click.csv的函数
 def process_click_csv(input_file):
     df = pd.read_csv(input_file, header=1)
 
-    # 检查数据是否符合预期
     if df.shape[1] < 3:
         print("click.csv文件格式不正确，请检查！")
         return None
@@ -31,7 +29,7 @@ def process_click_csv(input_file):
     # 返回有效数据和无效数据的时间节点
     return valid_data, df.iloc[invalid_index, 0]
 
-# 定义处理其他CSV文件的函数
+
 def process_other_csv_files(input_folder, time_threshold, output_folder):
     # 获取所有CSV文件
     other_files = glob.glob(os.path.join(input_folder, '*.csv'))
@@ -56,7 +54,6 @@ def process_other_csv_files(input_folder, time_threshold, output_folder):
 
 
 def simplify_mouse_movement(input_folder, output_folder):
-    # 确保输出文件夹存在，如果不存在则创建
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
@@ -73,7 +70,6 @@ def simplify_mouse_movement(input_folder, output_folder):
             header = []
             with open(input_file, 'r', newline='') as csvfile:
                 reader = csv.reader(csvfile)
-                # 保存标题行
                 header = next(reader)
                 for row in reader:
                     timestamp = "{:.2f}".format(float(row[0]))
@@ -86,8 +82,6 @@ def simplify_mouse_movement(input_folder, output_folder):
 
             with open(output_file, 'w', newline='') as csvfile:
                 writer = csv.writer(csvfile)
-                # 写入标题行，列数根据数据动态确定
-                # header = ['Timestamp'] + [f'Column_{i}' for i in range(1, len(timestamp_data[sorted_timestamps[0]]) + 1)]
                 writer.writerow(header)
                 for timestamp in sorted_timestamps:
                     row_data = [timestamp] + timestamp_data[timestamp]
@@ -100,7 +94,6 @@ def main():
     click_file = os.path.join(input_folder, 'click.csv')
     output_folder = 'simplified_folder'
     
-    # 处理click.csv
     valid_data, invalid_time = process_click_csv(click_file)
     
     if invalid_time is not None:
@@ -109,7 +102,6 @@ def main():
         if not os.path.exists('processed_data'):
             os.makedirs('processed_data')
         
-        # 处理其他CSV文件
         process_other_csv_files(input_folder, invalid_time, 'processed_data')
 
     # 简化行为数据
